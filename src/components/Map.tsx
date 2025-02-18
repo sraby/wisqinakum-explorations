@@ -58,7 +58,7 @@ const ANIMATION_TRIGGER_BUFFER = 500;
 /**
  * Total length of time map animations take, in milliseconds.
  */
-const ANIMATION_DURATION = 1000;
+const ANIMATION_DURATION = 10000;
 
 /**
  * A "blank" set of x and y scroll coordinates to initialize our react states with.
@@ -212,7 +212,10 @@ export const MapSequence: React.FC<{
     if (currentSlide === 1) {
       mapRef.current?.fitBounds(
         // Newtown Creek Bounds:
-        [-73.947498, 40.714181, -73.923933, 40.732695],
+        [
+          46.66673229334364, 30.960216329996495, 46.67279185377795,
+          30.956576827120905,
+        ],
         {
           duration: ANIMATION_DURATION,
         }

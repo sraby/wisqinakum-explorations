@@ -100,7 +100,7 @@ export const MAPBOX_STYLE = {
                 5,
                 0.1,
                 11,
-                0.5,
+                0.8,
               ],
               "raster-saturation": -1,
             },
