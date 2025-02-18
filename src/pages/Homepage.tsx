@@ -68,7 +68,11 @@ export const Homepage = () => {
         </div>
       </div>
 
-      <MapSequence slideContent={""} />
+      <MapSequence
+        slideContent={
+          " {newParagraph} {newParagraph} {newParagraph} {newParagraph} "
+        }
+      />
     </div>
   );
 };

@@ -10,19 +10,13 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "../styles/app.scss";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Paragraph, splitParagraphs } from "src/pages/Homepage";
+import { MAPBOX_STYLE } from "./style";
 
 /**
  * This is a public access token connected to THE CITY's MapBox account:
  */
 export const MAPBOX_TOKEN =
   "pk.eyJ1IjoidGhlLWNpdHkiLCJhIjoiY2xhMWVsNDY3MDJoYTNya2ptYWZpZW15dyJ9.iv4eTGq5GylMTUcYH16Big";
-
-/**
- * This is a link to our custom MapBox Studio basemap style:
- */
-export const MAPBOX_STYLE_URL =
-  "mapbox://styles/the-city/cloq9dvvp00ey01qn5jkgcqzb";
-
 /**
  * Since our custom style does not include links for map sprites, let's specify a fallback map style to load in:
  */
@@ -229,6 +223,8 @@ export const MapSequence: React.FC<{
     }
   }, [currentSlide]);
 
+  console.log();
+
   return !!boundaryData &&
     !!oilSpillData &&
     !!responsiblePartiesData &&
@@ -246,11 +242,12 @@ export const MapSequence: React.FC<{
             ref={mapRef}
             mapLib={maplibregl}
             initialViewState={{
-              longitude: -73.977708344928,
-              latitude: 40.713323256573386,
-              zoom: 10,
+              longitude: 44.088292409319294,
+              latitude: 33.11625705653691,
+              zoom: 7,
             }}
-            mapStyle={MAPBOX_STYLE_URL}
+            //@ts-ignore
+            mapStyle={MAPBOX_STYLE}
             transformRequest={transformStyleRequest}
             mapboxAccessToken={MAPBOX_TOKEN}
             interactive={false}
