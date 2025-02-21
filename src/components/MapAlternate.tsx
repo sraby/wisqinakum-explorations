@@ -20,19 +20,22 @@ const locations: Location[] = [
     latitude: 33.3152,
     longitude: 44.3661,
     label: "Baghdad",
-    image: "https://via.placeholder.com/200",
+    image:
+      "https://adventure.com/wp-content/uploads/2019/03/Hero-Tourist-in-Baghdad-Al-Rashid-Street-in-the-old-city-of-Baghdad-Photo-credit-Leon-McCarron.jpg",
   },
   {
     latitude: 36.1919,
     longitude: 44.0096,
     label: "Erbil",
-    image: "https://via.placeholder.com/200",
+    image:
+      "https://adventure.com/wp-content/uploads/2019/03/Hero-Tourist-in-Baghdad-Al-Rashid-Street-in-the-old-city-of-Baghdad-Photo-credit-Leon-McCarron.jpg",
   },
   {
     latitude: 30.5081,
     longitude: 47.7835,
     label: "Basra",
-    image: "https://via.placeholder.com/200",
+    image:
+      "https://adventure.com/wp-content/uploads/2019/03/Hero-Tourist-in-Baghdad-Al-Rashid-Street-in-the-old-city-of-Baghdad-Photo-credit-Leon-McCarron.jpg",
   },
 ];
 
@@ -41,6 +44,7 @@ export default function IraqMap() {
   const [showImage, setShowImage] = useState<boolean>(false);
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
+  console.log(currentIndex);
   useEffect(() => {
     const interval = setInterval(() => {
       setShowImage(false);
@@ -49,12 +53,12 @@ export default function IraqMap() {
           const newIndex = (prevIndex + 1) % locations.length;
           const bounds = new mapboxgl.LngLatBounds();
           bounds.extend([
-            locations[newIndex].longitude - 0.1,
-            locations[newIndex].latitude - 0.1,
+            locations[newIndex].longitude - 0.01,
+            locations[newIndex].latitude - 0.01,
           ]);
           bounds.extend([
-            locations[newIndex].longitude + 0.1,
-            locations[newIndex].latitude + 0.1,
+            locations[newIndex].longitude + 0.01,
+            locations[newIndex].latitude + 0.01,
           ]);
 
           if (mapRef.current) {
@@ -70,7 +74,7 @@ export default function IraqMap() {
 
   useEffect(() => {
     if (currentIndex >= 0) {
-      setTimeout(() => setShowImage(true), 2000);
+      setTimeout(() => setShowImage(true), 8000);
     }
   }, [currentIndex]);
 
@@ -78,10 +82,14 @@ export default function IraqMap() {
     <div className="section">
       <div
         className="box"
-        style={{ position: "relative", width: "100%", height: "100vh" }}
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100vh",
+        }}
       >
         <Map
-          initialViewState={{ latitude: 33.0, longitude: 44.0, zoom: 5 }}
+          initialViewState={{ latitude: 33.0, longitude: 44.0, zoom: 6 }}
           style={{ width: "100%", height: "100%" }}
           //@ts-ignore
           mapStyle={MAPBOX_STYLE}
@@ -103,10 +111,22 @@ export default function IraqMap() {
           <motion.img
             src={locations[currentIndex].image}
             alt={locations[currentIndex].label}
-            className="image is-128x128 box"
-            style={{ position: "absolute", top: "2rem", left: "2rem" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            className="image is-128x128"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              maxWidth: "80vw",
+              maxHeight: "80vh",
+              width: "auto",
+              height: "auto",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+              border: "none",
+            }}
+            initial={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
+            animate={{ opacity: 1, clipPath: "circle(100% at 50% 50%)" }}
+            exit={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
             transition={{ duration: 1 }}
           />
         )}
