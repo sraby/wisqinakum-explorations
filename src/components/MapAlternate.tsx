@@ -18,7 +18,7 @@ const locations = [
   { latitude: 30.9636, longitude: 46.6948, label: "Dhi Qar", image: Image3 },
 ];
 
-const BOUNDING_BOX_SIZE = 0.005;
+const BOUNDING_BOX_SIZE = 0.003;
 const UNIT_OF_TIME = 1000;
 const FINAL_TEXT = `
 
