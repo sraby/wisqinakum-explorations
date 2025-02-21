@@ -9,47 +9,36 @@ import Image1 from "../assets/images/scrolly-photos/1.jpg";
 import Image2 from "../assets/images/scrolly-photos/2.jpg";
 import Image3 from "../assets/images/scrolly-photos/3.jpg";
 
-type Location = {
-  latitude: number;
-  longitude: number;
-  label: string;
-  image: string;
-};
-
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoidGhlLWNpdHkiLCJhIjoiY2xhMWVsNDY3MDJoYTNya2ptYWZpZW15dyJ9.iv4eTGq5GylMTUcYH16Big";
 
-const locations: Location[] = [
-  {
-    latitude: 32.531923334747034,
-    longitude: 44.229509442875774,
-    label: "Hindiyah",
-    image: Image1,
-  },
-  {
-    latitude: 31.91478524765664,
-    longitude: 44.49288602507962,
-    label: "Najaf",
-    image: Image2,
-  },
-  {
-    latitude: 30.96363687135393,
-    longitude: 46.69489220592581,
-    label: "Dhi Qar",
-    image: Image3,
-  },
+const locations = [
+  { latitude: 32.5319, longitude: 44.2295, label: "Hindiyah", image: Image1 },
+  { latitude: 31.9148, longitude: 44.4928, label: "Najaf", image: Image2 },
+  { latitude: 30.9636, longitude: 46.6948, label: "Dhi Qar", image: Image3 },
 ];
 
 const BOUNDING_BOX_SIZE = 0.005;
+const UNIT_OF_TIME = 1000;
+const FINAL_TEXT = `
+روي: هل تحتوي القرية على بيوت أو مساحات... أو بلدية؟ * كلام غير مفهوم*
+وليد: لا، لا، توجد على مسافة بعيدة. لا يوجد ذلك.
+روي: هل تقصد قبل السد؟
+وليد: نعم، كل هذا كان قبل السد.
+روي: هل كان الماء هنا عميقًا قبل السد؟
+وليد: لا.
+روي: ماذا كان الوضع إذًا؟`;
 
 export default function IraqMap() {
-  const [currentIndex, setCurrentIndex] = useState<number>(-1);
-  const [showImage, setShowImage] = useState<boolean>(false);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [showImage, setShowImage] = useState(false);
+  const [showCanvas, setShowCanvas] = useState(false);
+  const [typedText, setTypedText] = useState("");
+  const mapRef = useRef(null);
 
   useEffect(() => {
     const startAnimation = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 sec before starting
+      await new Promise((resolve) => setTimeout(resolve, UNIT_OF_TIME));
       for (let i = 0; i < locations.length; i++) {
         setCurrentIndex(i);
         const bounds = new mapboxgl.LngLatBounds();
@@ -62,26 +51,40 @@ export default function IraqMap() {
           locations[i].latitude + BOUNDING_BOX_SIZE,
         ]);
         if (mapRef.current) {
-          mapRef.current.fitBounds(bounds, { padding: 50, duration: 10000 });
+          //@ts-ignore
+          mapRef.current.fitBounds(bounds, {
+            padding: 50,
+            duration: 10 * UNIT_OF_TIME,
+          });
         }
-        await new Promise((resolve) => setTimeout(resolve, 11000)); // Wait 10 sec pan + 1 sec pause
+        await new Promise((resolve) => setTimeout(resolve, 11 * UNIT_OF_TIME));
         setShowImage(true);
-        await new Promise((resolve) => setTimeout(resolve, 6000)); // Show image for 6 sec
+        await new Promise((resolve) => setTimeout(resolve, 6 * UNIT_OF_TIME));
         setShowImage(false);
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 sec before next pan
+        await new Promise((resolve) => setTimeout(resolve, 1 * UNIT_OF_TIME));
+      }
+      setShowCanvas(true);
+      await new Promise((resolve) => setTimeout(resolve, UNIT_OF_TIME));
+      for (let i = 0; i <= FINAL_TEXT.length; i++) {
+        setTypedText(FINAL_TEXT.substring(0, i));
+        await new Promise((resolve) => setTimeout(resolve, 50));
       }
     };
     startAnimation();
   }, []);
 
   return (
-    <div className="section">
-      <div
-        className="box"
+    <div
+      className="section"
+      style={{ display: "flex", width: "100vw", height: "100vh" }}
+    >
+      <motion.div
+        className="map-container"
         style={{
           position: "relative",
-          width: "100%",
+          width: showCanvas ? "50%" : "100%",
           height: "100vh",
+          transition: "width 1s ease-in-out",
         }}
       >
         <Map
@@ -90,6 +93,7 @@ export default function IraqMap() {
           //@ts-ignore
           mapStyle={MAPBOX_STYLE}
           mapboxAccessToken={MAPBOX_TOKEN}
+          //@ts-ignore
           onLoad={(evt) => (mapRef.current = evt.target)}
         >
           {currentIndex >= 0 && (
@@ -128,7 +132,7 @@ export default function IraqMap() {
                 maxHeight: "80vh",
                 width: "auto",
                 height: "auto",
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+                boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.5)",
                 border: "none",
               }}
               initial={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
@@ -138,24 +142,51 @@ export default function IraqMap() {
             />
           )}
         </AnimatePresence>
+      </motion.div>
 
-        <div
-          className="buttons is-centered"
+      {showCanvas && (
+        <motion.div
+          className="canvas-container"
           style={{
-            position: "absolute",
-            bottom: "1rem",
-            left: "50%",
-            transform: "translateX(-50%)",
+            width: "50%",
+            height: "100vh",
+            textAlign: "right",
+            backgroundColor: "#D7C0B0",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
           }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
         >
-          <button
-            className="button is-primary"
-            onClick={() => window.location.reload()} // Restart the full sequence
+          <p
+            style={{
+              fontSize: "1.5rem",
+              textAlign: "right",
+              fontFamily: "monospace",
+              fontWeight: "900",
+            }}
           >
-            Restart
-          </button>
-        </div>
-      </div>
+            جواد صياد السمك
+          </p>
+          <motion.p
+            style={{
+              width: "80%",
+              fontSize: "1.5rem",
+              textAlign: "right",
+              fontFamily: "monospace",
+              fontWeight: "400",
+              whiteSpace: "pre-wrap",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {typedText}
+          </motion.p>
+        </motion.div>
+      )}
     </div>
   );
 }
