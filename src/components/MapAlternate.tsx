@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import mapboxgl from "mapbox-gl";
 import { MAPBOX_STYLE } from "./style";
 
+import Image1 from "../assets/images/scrolly-photos/1.jpg";
+import Image2 from "../assets/images/scrolly-photos/2.jpg";
+import Image3 from "../assets/images/scrolly-photos/3.jpg";
+
 type Location = {
   latitude: number;
   longitude: number;
@@ -17,27 +21,26 @@ const MAPBOX_TOKEN =
 
 const locations: Location[] = [
   {
-    latitude: 33.3152,
-    longitude: 44.3661,
-    label: "Baghdad",
-    image:
-      "https://adventure.com/wp-content/uploads/2019/03/Hero-Tourist-in-Baghdad-Al-Rashid-Street-in-the-old-city-of-Baghdad-Photo-credit-Leon-McCarron.jpg",
+    latitude: 32.531923334747034,
+    longitude: 44.229509442875774,
+    label: "Hindiyah",
+    image: Image1,
   },
   {
-    latitude: 36.1919,
-    longitude: 44.0096,
-    label: "Erbil",
-    image:
-      "https://adventure.com/wp-content/uploads/2019/03/Hero-Tourist-in-Baghdad-Al-Rashid-Street-in-the-old-city-of-Baghdad-Photo-credit-Leon-McCarron.jpg",
+    latitude: 31.91478524765664,
+    longitude: 44.49288602507962,
+    label: "Najaf",
+    image: Image2,
   },
   {
-    latitude: 30.5081,
-    longitude: 47.7835,
-    label: "Basra",
-    image:
-      "https://adventure.com/wp-content/uploads/2019/03/Hero-Tourist-in-Baghdad-Al-Rashid-Street-in-the-old-city-of-Baghdad-Photo-credit-Leon-McCarron.jpg",
+    latitude: 30.96363687135393,
+    longitude: 46.69489220592581,
+    label: "Dhi Qar",
+    image: Image3,
   },
 ];
+
+const BOUNDING_BOX_SIZE = 0.005;
 
 export default function IraqMap() {
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
@@ -51,12 +54,12 @@ export default function IraqMap() {
         setCurrentIndex(i);
         const bounds = new mapboxgl.LngLatBounds();
         bounds.extend([
-          locations[i].longitude - 0.01,
-          locations[i].latitude - 0.01,
+          locations[i].longitude - BOUNDING_BOX_SIZE,
+          locations[i].latitude - BOUNDING_BOX_SIZE,
         ]);
         bounds.extend([
-          locations[i].longitude + 0.01,
-          locations[i].latitude + 0.01,
+          locations[i].longitude + BOUNDING_BOX_SIZE,
+          locations[i].latitude + BOUNDING_BOX_SIZE,
         ]);
         if (mapRef.current) {
           mapRef.current.fitBounds(bounds, { padding: 50, duration: 7000 });
