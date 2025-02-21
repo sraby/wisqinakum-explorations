@@ -93,9 +93,18 @@ export default function IraqMap() {
             <Marker
               latitude={locations[currentIndex].latitude}
               longitude={locations[currentIndex].longitude}
-              anchor="bottom"
+              anchor="center"
             >
-              📍
+              <div
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor: "rgba(255, 255, 255, 0.6)",
+                  borderRadius: "50%",
+                  border: "2px solid white",
+                  boxShadow: "0 0 5px rgba(255, 255, 255, 0.5)",
+                }}
+              />
             </Marker>
           )}
         </Map>
