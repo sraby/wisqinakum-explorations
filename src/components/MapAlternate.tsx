@@ -75,8 +75,11 @@ export default function IraqMap() {
 
   return (
     <div
-      className="section"
-      style={{ display: "flex", width: "100vw", height: "100vh" }}
+      style={{
+        display: "flex",
+        width: "100vw",
+        height: "100vh",
+      }}
     >
       <motion.div
         className="map-container"

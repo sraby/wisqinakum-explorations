@@ -3,18 +3,7 @@ import parse from "html-react-parser";
 
 import "../styles/app.scss";
 import "react-lazy-load-image-component/src/effects/blur.css";
-//import { MapSequence } from "src/components/Map";
 import IraqMap from "src/components/MapAlternate";
-
-export const LINKS_TO_CONTENT = {
-  stories: {
-    landingPage: "https://projects.thecity.nyc/hazard-nyc/",
-    gowanusCanal: "https://projects.thecity.nyc/hazard-nyc-gowanus-canal",
-    wolffAlport:
-      "https://projects.thecity.nyc/hazard-nyc-wolff-alport-chemical-company/",
-    newtownCreek: "https://projects.thecity.nyc/hazard-nyc-newtown-creek ",
-  },
-};
 
 const convertToHtml = (text: string) => {
   let formattedText = text;
@@ -55,20 +44,6 @@ export const formatContent = (content: string) => (
 export const Homepage = () => {
   return (
     <div className="app">
-      <div className="scrolly-container" style={{ backgroundColor: "#D7C0B0" }}>
-        <div
-          className="hero is-fullheight is-flex is-flex-direction-column is-justify-content-center"
-          style={{ backgroundColor: "#D7C0B0" }}
-        >
-          <div className="landing-content mx-4">
-            <h1 className="headline mb-0 has-text-right">
-              وأسقيناكم ماء فراتاً
-            </h1>
-            <h1 className="headline mb-0">and we gave you euphrates water</h1>
-          </div>
-        </div>
-      </div>
-
       <IraqMap />
 
       {/* <MapSequence
