@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Map, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import mapboxgl from "mapbox-gl";
 import { MAPBOX_STYLE } from "./style";
 
@@ -44,39 +44,32 @@ export default function IraqMap() {
   const [showImage, setShowImage] = useState<boolean>(false);
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
-  console.log(currentIndex);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setShowImage(false);
-      setTimeout(() => {
-        setCurrentIndex((prevIndex) => {
-          const newIndex = (prevIndex + 1) % locations.length;
-          const bounds = new mapboxgl.LngLatBounds();
-          bounds.extend([
-            locations[newIndex].longitude - 0.01,
-            locations[newIndex].latitude - 0.01,
-          ]);
-          bounds.extend([
-            locations[newIndex].longitude + 0.01,
-            locations[newIndex].latitude + 0.01,
-          ]);
-
-          if (mapRef.current) {
-            mapRef.current.fitBounds(bounds, { padding: 50, duration: 7000 });
-          }
-
-          return newIndex;
-        });
-      }, 1000);
-    }, 14000);
-    return () => clearInterval(interval);
+    const startAnimation = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 sec before starting
+      for (let i = 0; i < locations.length; i++) {
+        setCurrentIndex(i);
+        const bounds = new mapboxgl.LngLatBounds();
+        bounds.extend([
+          locations[i].longitude - 0.01,
+          locations[i].latitude - 0.01,
+        ]);
+        bounds.extend([
+          locations[i].longitude + 0.01,
+          locations[i].latitude + 0.01,
+        ]);
+        if (mapRef.current) {
+          mapRef.current.fitBounds(bounds, { padding: 50, duration: 7000 });
+        }
+        await new Promise((resolve) => setTimeout(resolve, 8000)); // Wait 7 sec pan + 1 sec pause
+        setShowImage(true);
+        await new Promise((resolve) => setTimeout(resolve, 6000)); // Show image for 6 sec
+        setShowImage(false);
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 sec before next pan
+      }
+    };
+    startAnimation();
   }, []);
-
-  useEffect(() => {
-    if (currentIndex >= 0) {
-      setTimeout(() => setShowImage(true), 8000);
-    }
-  }, [currentIndex]);
 
   return (
     <div className="section">
@@ -107,29 +100,32 @@ export default function IraqMap() {
           )}
         </Map>
 
-        {showImage && currentIndex >= 0 && (
-          <motion.img
-            src={locations[currentIndex].image}
-            alt={locations[currentIndex].label}
-            className="image is-128x128"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              maxWidth: "80vw",
-              maxHeight: "80vh",
-              width: "auto",
-              height: "auto",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
-              border: "none",
-            }}
-            initial={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
-            animate={{ opacity: 1, clipPath: "circle(100% at 50% 50%)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
-            transition={{ duration: 1 }}
-          />
-        )}
+        <AnimatePresence>
+          {showImage && currentIndex >= 0 && (
+            <motion.img
+              key={locations[currentIndex].image}
+              src={locations[currentIndex].image}
+              alt={locations[currentIndex].label}
+              className="image"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                maxWidth: "80vw",
+                maxHeight: "80vh",
+                width: "auto",
+                height: "auto",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)",
+                border: "none",
+              }}
+              initial={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
+              animate={{ opacity: 1, clipPath: "circle(100% at 50% 50%)" }}
+              exit={{ opacity: 0, clipPath: "circle(0% at 50% 50%)" }}
+              transition={{ duration: 1 }}
+            />
+          )}
+        </AnimatePresence>
 
         <div
           className="buttons is-centered"
@@ -142,7 +138,7 @@ export default function IraqMap() {
         >
           <button
             className="button is-primary"
-            onClick={() => setCurrentIndex(-1)}
+            onClick={() => window.location.reload()} // Restart the full sequence
           >
             Restart
           </button>
