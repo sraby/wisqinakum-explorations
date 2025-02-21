@@ -3,7 +3,8 @@ import parse from "html-react-parser";
 
 import "../styles/app.scss";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { MapSequence } from "src/components/Map";
+//import { MapSequence } from "src/components/Map";
+import IraqMap from "src/components/MapAlternate";
 
 export const LINKS_TO_CONTENT = {
   stories: {
@@ -68,11 +69,13 @@ export const Homepage = () => {
         </div>
       </div>
 
-      <MapSequence
+      <IraqMap />
+
+      {/* <MapSequence
         slideContent={
           " {newParagraph} {newParagraph} {newParagraph} {newParagraph} "
         }
-      />
+      /> */}
     </div>
   );
 };
