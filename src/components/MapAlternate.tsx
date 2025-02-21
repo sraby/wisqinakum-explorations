@@ -62,9 +62,9 @@ export default function IraqMap() {
           locations[i].latitude + BOUNDING_BOX_SIZE,
         ]);
         if (mapRef.current) {
-          mapRef.current.fitBounds(bounds, { padding: 50, duration: 7000 });
+          mapRef.current.fitBounds(bounds, { padding: 50, duration: 10000 });
         }
-        await new Promise((resolve) => setTimeout(resolve, 8000)); // Wait 7 sec pan + 1 sec pause
+        await new Promise((resolve) => setTimeout(resolve, 11000)); // Wait 10 sec pan + 1 sec pause
         setShowImage(true);
         await new Promise((resolve) => setTimeout(resolve, 6000)); // Show image for 6 sec
         setShowImage(false);
