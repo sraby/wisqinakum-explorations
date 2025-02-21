@@ -21,6 +21,7 @@ const locations = [
 const BOUNDING_BOX_SIZE = 0.005;
 const UNIT_OF_TIME = 1000;
 const FINAL_TEXT = `
+
 روي: هل تحتوي القرية على بيوت أو مساحات... أو بلدية؟ * كلام غير مفهوم*
 وليد: لا، لا، توجد على مسافة بعيدة. لا يوجد ذلك.
 روي: هل تقصد قبل السد؟
@@ -29,11 +30,21 @@ const FINAL_TEXT = `
 وليد: لا.
 روي: ماذا كان الوضع إذًا؟`;
 
+const FINAL_TEXT_EN = `
+Roi: Does the village have houses or spaces... or a municipality? *Unclear speech*
+Waleed: No, no, it's a distant area. There is none.
+Roi: Are you referring to before the dam?
+Waleed: Yes, all of this was before the dam.
+Roi: Was the water deep here before the dam?
+Waleed: No.
+Roi: What was the situation then?`;
+
 export default function IraqMap() {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [showImage, setShowImage] = useState(false);
   const [showCanvas, setShowCanvas] = useState(false);
   const [typedText, setTypedText] = useState("");
+  const [typedTextEN, setTypedTextEN] = useState("");
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -65,8 +76,13 @@ export default function IraqMap() {
       }
       setShowCanvas(true);
       await new Promise((resolve) => setTimeout(resolve, UNIT_OF_TIME));
-      for (let i = 0; i <= FINAL_TEXT.length; i++) {
+      for (
+        let i = 0;
+        i <= Math.max(FINAL_TEXT.length, FINAL_TEXT_EN.length);
+        i++
+      ) {
         setTypedText(FINAL_TEXT.substring(0, i));
+        setTypedTextEN(FINAL_TEXT_EN.substring(0, i));
         await new Promise((resolve) => setTimeout(resolve, 50));
       }
     };
@@ -159,35 +175,78 @@ export default function IraqMap() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            padding: "2rem",
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <p
+          <div
             style={{
-              fontSize: "1.5rem",
-              textAlign: "right",
-              fontFamily: "monospace",
-              fontWeight: "900",
+              height: "50%",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "right",
+              alignItems: "flex-end",
             }}
           >
-            جواد صياد السمك
-          </p>
-          <motion.p
+            <p
+              style={{
+                fontSize: "1.5rem",
+                textAlign: "right",
+                fontFamily: "monospace",
+                fontWeight: "900",
+              }}
+            >
+              جواد صياد السمك
+            </p>
+            <motion.p
+              style={{
+                width: "80%",
+                fontSize: "1.2rem",
+                textAlign: "right",
+                fontFamily: "monospace",
+                fontWeight: "400",
+                whiteSpace: "pre-wrap",
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {typedText}
+            </motion.p>
+          </div>
+          <div
             style={{
-              width: "80%",
-              fontSize: "1.5rem",
-              textAlign: "right",
-              fontFamily: "monospace",
-              fontWeight: "400",
-              whiteSpace: "pre-wrap",
+              height: "50%",
+              width: "100%",
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
           >
-            {typedText}
-          </motion.p>
+            <p
+              style={{
+                fontSize: "1.5rem",
+                textAlign: "left",
+                fontFamily: "monospace",
+                fontWeight: "900",
+              }}
+            >
+              Jawad fisherman
+            </p>
+            <motion.p
+              style={{
+                width: "80%",
+                fontSize: "1.2rem",
+                textAlign: "left",
+                fontFamily: "monospace",
+                fontWeight: "400",
+                whiteSpace: "pre-wrap",
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {typedTextEN}
+            </motion.p>
+          </div>
         </motion.div>
       )}
     </div>
