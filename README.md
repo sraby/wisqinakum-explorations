@@ -2,7 +2,7 @@
 
 Counter-cartographies of the Euphrates is a digital atlas of a river, seeking to retell the history of Iraq, its geography, and its modernity, through the lens of its people.
 
-This project is produced through [Eyebeam's Democracy Machine](https://eyebeam.org/artists/sam-rabiyah/) fellowship. To read more about how we work, consult our [Code of Conduct](https://github.com/sraby/wisqinakum-explorations/blob/main/code-of-conduct.md). Note that while the project is open source, our code is protected through an [Apache License](https://github.com/sraby/wisqinakum-explorations/blob/main/LICENSE). 
+This project is produced through [Eyebeam's Democracy Machine](https://eyebeam.org/artists/sam-rabiyah/) fellowship as a collaboration between Sam Rabiyah and a collective of artists and photographers from the region. To read more about how we work, consult our [Code of Conduct](https://github.com/sraby/wisqinakum-explorations/blob/main/code-of-conduct.md). Note that while the project is open source, our code is protected through an [Apache License](https://github.com/sraby/wisqinakum-explorations/blob/main/LICENSE). 
 
 ## 🚀 Getting started
 
