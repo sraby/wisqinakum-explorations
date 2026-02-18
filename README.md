@@ -1,12 +1,6 @@
-# THE CITY's Full-page Photo Scrolly Template for News Apps
+# Counter-cartographies of the Euphrates 
 
-[THE CITY](https://www.thecity.nyc/pages/about) is a nonprofit, nonpartisan, digital newsroom dedicated to hard-hitting reporting that serves the people of New York. We publish news apps and data graphics regularly, and we try and open source as much of our code as we can so that others can use it. You can check out a list of our recent projects on [THE CITY Projects Page](https://projects.thecity.nyc/all-projects/).
-
-This template is what we use to generate interactive, photo-heavy, vertical scroll-based stories and publish them on the web. Check out a live example from THE CITY using this template: [Making My Force and My Face Known: Queer Wrestlers Enter the Ring in Red Hook](https://projects.thecity.nyc/queer-wrestling-red-hook/).
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The deployment process is based in part on the [Baker Rig](https://github.com/datadesk/baker) project by the L.A. Times.
-
-If you're looking to build a simpler app, you may want to check out our [Full-page React Template](https://github.com/thecityny/fullpage-react-template) or our [Multi-page Gatsby Template](https://github.com/thecityny/multipage-gatsby-template) instead.
+Counter-cartographies of the Euphrates is a digital atlas of a river, seeking to retell the history of Iraq, its geography, and its modernity, through the lens of its people.
 
 ## 🚀 Getting started
 
