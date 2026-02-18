@@ -114,6 +114,12 @@ export default function IraqMap() {
           mapboxAccessToken={MAPBOX_TOKEN}
           //@ts-ignore
           onLoad={(evt) => (mapRef.current = evt.target)}
+          customAttribution={[
+            `<a href="https://github.com/sraby/wisqinakum-explorations">Source Code</a>`,
+            `<a href="https://github.com/sraby/wisqinakum-explorations/blob/main/LICENSE">License</a>`,
+            `<a href="https://github.com/sraby/wisqinakum-explorations/blob/main/code-of-conduct.md">Code of Conduct</a>`,
+            `This site is powered by <a href="https://www.netlify.com/">Netlify</a>`,
+          ]}
         >
           {currentIndex >= 0 && (
             <Marker
